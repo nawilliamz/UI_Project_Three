@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <MotionScene
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
 
         android:id="@+id/status_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/design_default_color_on_secondary"
@@ -43,9 +45,6 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:duration="5000">
-        <OnClick
-            app:targetId="@+id/start"
-            app:clickAction="transitionToEnd"/>
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="25"
@@ -60,6 +59,28 @@
                 app:keyPositionType="pathRelative"
                 app:percentY="0.12"
                 />
-        </KeyFrameSet>/>
+
+            <KeyAttribute
+                app:framePosition="0"
+                app:motionTarget="@id/status_text">
+                <CustomAttribute
+                    app:attributeName="textColor"
+                    app:customColorValue="@color/black"/>
+                <CustomAttribute
+                    app:attributeName="textSize"
+                    app:customFloatValue="20"/>
+            </KeyAttribute>
+            <KeyAttribute
+                app:framePosition="100"
+                app:motionTarget="@id/status_text">
+                <CustomAttribute
+                    app:attributeName="textColor"
+                    app:customColorValue="@color/colorTextFinish"/>
+                <CustomAttribute
+                    app:attributeName="textSize"
+                    app:customFloatValue="20"/>
+            </KeyAttribute>
+
+        </KeyFrameSet>
     </Transition>
 </MotionScene>

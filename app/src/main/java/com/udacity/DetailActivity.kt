@@ -26,17 +26,15 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
 
-//            val fileName = intent.getStringExtra("FILENAME")
+    override fun onStart() {
+        super.onStart()
 
-
-            Log.i("DetailActivity", "onSaveInstanceState has run")
-            binding.motionLayout.transitionToEnd()
-
-
+        Log.i("DetailActivity", "onStart method in DetailActivity is running.")
+        binding.motionLayout.transitionToEnd()
     }
+
+
 }
 
 
