@@ -347,6 +347,8 @@ class MainActivity : AppCompatActivity() {
 
         animationProcessingJob_NoFileSelected.cancel()
         animationProcessingScope_GlideSelected.cancel()
+        animationProcessingScope_UdacitySelected.cancel()
+        animationProcessingScope_RetrofitSelected.cancel()
     }
 
 
