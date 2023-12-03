@@ -14,4 +14,6 @@
 
     <dimen name="detail_overlay_transperency">.85f</dimen>
 
+    <dimen name="text_label_size">18sp</dimen>
+
 </resources>

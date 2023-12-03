@@ -14,7 +14,7 @@
         android:layout_height="@dimen/status_text_start_height"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/design_default_color_on_secondary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
 
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
