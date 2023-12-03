@@ -108,12 +108,12 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
 
         selectDownloadPaint.color = buttonDownloadColor
-        canvas?.drawRect(left, top, right, bottom, selectDownloadPaint)
+        canvas.drawRect(left, top, right, bottom, selectDownloadPaint)
 
 
     }

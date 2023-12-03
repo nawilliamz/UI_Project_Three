@@ -113,19 +113,13 @@ class LoadingButton @JvmOverloads constructor(
 
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         buttonPaint.color = buttonPrimaryColor
-        canvas?.drawRect(rect.left, rect.top, rect.right, rect.bottom, buttonPaint)
+        canvas.drawRect(rect.left, rect.top, rect.right, rect.bottom, buttonPaint)
 
-        if (canvas != null) {
-            drawButtonPreDLText(canvas)
-            
-//            drawButtonDownloadingText(canvas)
-
-//            drawStatusCircle(canvas)
-        }
+        drawButtonPreDLText(canvas)
 
     }
 

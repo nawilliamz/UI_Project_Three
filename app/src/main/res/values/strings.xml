@@ -27,4 +27,6 @@
     <string name="download_channel_id">download_channel</string>
     <string name="notification_channel_description">Notify download completed</string>
     <string name="download_channel_name">Download</string>
+
+    <string name="detail_activity_screen_text">CLICK HERE FOR DOWNLOAD STATUS</string>
 </resources>

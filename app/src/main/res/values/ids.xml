@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="animated_download_button" type="id" />
+
+    <item name="transition_id" type="id"/>
+    <item name="start_set_id" type="id"/>
+    <item name="end_set_id" type="id"/>
+
 </resources>

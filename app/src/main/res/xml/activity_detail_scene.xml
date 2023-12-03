@@ -11,7 +11,7 @@
 
         android:id="@+id/status_text"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="@dimen/status_text_start_height"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/design_default_color_on_secondary"
@@ -29,7 +29,7 @@
         <Constraint
         android:id="@id/status_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/status_text_end_height"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:textSize="18dp"
@@ -44,7 +44,10 @@
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="5000">
+        motion:duration="10000">
+<!--        <OnClick-->
+<!--            app:targetId="@id/status_text"-->
+<!--            app:clickAction="toggle" />-->
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="25"
@@ -68,7 +71,7 @@
                     app:customColorValue="@color/black"/>
                 <CustomAttribute
                     app:attributeName="textSize"
-                    app:customFloatValue="20"/>
+                    app:customFloatValue="10"/>
             </KeyAttribute>
             <KeyAttribute
                 app:framePosition="100"
@@ -78,7 +81,7 @@
                     app:customColorValue="@color/colorTextFinish"/>
                 <CustomAttribute
                     app:attributeName="textSize"
-                    app:customFloatValue="20"/>
+                    app:customFloatValue="24"/>
             </KeyAttribute>
 
         </KeyFrameSet>

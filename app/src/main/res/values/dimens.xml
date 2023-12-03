@@ -6,4 +6,12 @@
     <dimen name="download_button_sides_margin">20dp</dimen>
     <dimen name="circleRadius">28dp</dimen>
 
+    <dimen name="status_text_end_height">28dp</dimen>
+    <dimen name="status_text_start_height">14dp</dimen>
+
+    <dimen name="text_overlay_size">28sp</dimen>
+    <dimen name="detail_overlay_padding">24dp</dimen>
+
+    <dimen name="detail_overlay_transperency">.85f</dimen>
+
 </resources>

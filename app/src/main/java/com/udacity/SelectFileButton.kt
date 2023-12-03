@@ -78,17 +78,15 @@ class SelectFileButton @JvmOverloads constructor(
         textHeight = height/2
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
             selectFilePaint.color = primaryColor
 
 //            canvas?.drawRect(left, top, right, bottom, selectFilePaint)
-            canvas?.drawRoundRect(left, top, right, bottom, 60f, 60f, selectFilePaint)
+            canvas.drawRoundRect(left, top, right, bottom, 60f, 60f, selectFilePaint)
 
-        if (canvas != null) {
-            selectFileText(canvas)
-        }
+        selectFileText(canvas)
 
             setBackgroundResource(R.drawable.rectangle_rounded_corners)
     }
