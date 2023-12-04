@@ -177,20 +177,4 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         positionAnimator.start()
     }
 
-//    private fun translateAnimatedDownloadButton(downloadButtonX: Float, downloadButtonRight:Float) {
-//
-//        val startPosition = this.x
-//
-//        val finalPosition = -(this.x - downloadButtonX)
-//
-//        val translationAnimator = ValueAnimator.ofFloat(startPosition, finalPosition)
-//
-//        translationAnimator.addUpdateListener {
-//            this.translationX = it.animatedValue as Float
-//        }
-//
-//        translationAnimator.start()
-//
-//    }
-
 }

@@ -125,7 +125,6 @@ class MainActivity : AppCompatActivity() {
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
             binding.downloadButton.invalidate()
-            Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColory")
 
             val leftPosition = binding.downloadButton.x
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -138,22 +137,15 @@ class MainActivity : AppCompatActivity() {
             //This line of code needs to be on separate coroutine using Dispaters.IO
 
             withContext(Dispatchers.IO) {
-                Log.i("MainActivity", "withContext block has started")
-//                GlideDownloader.downloadFile(Constants.GLIDE_URL, context)
 
                 FileDownloader(mainContext).downloadFile(Constants.GLIDE_URL, mainContext)
-                Log.i("MainActivity", "Glide_URL is ${Constants.GLIDE_URL}")
+
 
 
             }
 
 
-            //With this code and looking at DownloadReceived.kt, the notification will always be sent BEFORE
-            //the extras are put into the intent (which happens in finishDownloadProcessing()). Therefore,
-            //the sendNotification() (and thus the creation & sending of the notification) is always being done
-            //before the extras are being put into the intent. Therefore, when you click on it, the extras are
-            //not being passed to DetailsActivity. You need to move the notification code on DownloadReceived.kt
-            //down below the setting of resultStatus and loadingState.value
+
             loadingState.observe(this@MainActivity, Observer {
 
                 if (loadingState.value == LoadingStatus.DONE) {
@@ -181,7 +173,7 @@ class MainActivity : AppCompatActivity() {
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
             binding.downloadButton.invalidate()
-            Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColory")
+
 
             val leftPosition = binding.downloadButton.x
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -191,11 +183,9 @@ class MainActivity : AppCompatActivity() {
             binding.progressCircle.showAnimatedCircle()
 
             withContext(Dispatchers.IO) {
-                Log.i("MainActivity", "withContext block has started")
-//                GlideDownloader.downloadFile(Constants.GLIDE_URL, context)
 
                 FileDownloader(mainContext).downloadFile(Constants.UDACITY_URL, mainContext)
-                Log.i("MainActivity", "Udacity_URL is ${Constants.UDACITY_URL}")
+
 
             }
 
@@ -227,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 //Set the color of DOWNLOAD text to same as background color
                 binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
                 binding.downloadButton.invalidate()
-                Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColory")
+
 
                 val leftPosition = binding.downloadButton.x
                 val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -238,11 +228,8 @@ class MainActivity : AppCompatActivity() {
 
 
                 withContext(Dispatchers.IO) {
-                    Log.i("MainActivity", "withContext block has started")
-//                GlideDownloader.downloadFile(Constants.GLIDE_URL, context)
 
                     FileDownloader(mainContext).downloadFile(Constants.RETROFIT_URL, mainContext)
-                    Log.i("MainActivity", "Udacity_URL is ${Constants.RETROFIT_URL}")
 
                 }
 
@@ -259,8 +246,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-
     //************************************************RETROFIT_CODE***********************************************
 
 
@@ -271,8 +256,6 @@ class MainActivity : AppCompatActivity() {
             //Stop animation of customer views
             binding.animatedDownloadButton.cancelAnimators()
             binding.progressCircle.cancelAnimatedCircle()
-            Log.i("MainActivity", "DownloadButton & ProgressCircle animates are cancelled")
-
 
             //Make custom view disappear
             binding.progressCircle.isGone = true
@@ -282,13 +265,6 @@ class MainActivity : AppCompatActivity() {
             binding.downloadButton.textPaint.color = Color.WHITE
             binding.downloadButton.invalidate()
 
-
-            //*****************Navigation to DetailsActivity**************************
-            //Trigger navigation to DetailsActivity when download complete using Intent
-            //Do you need to place this code inside the CoroutineScope? I do think so insofar as I
-            //need to stop this corouting from processing.
-
-//            fileName = Constants.GLIDE_FILE_NAME
 
             when (loadingFile) {
 
@@ -308,7 +284,6 @@ class MainActivity : AppCompatActivity() {
                 fileDownloadStatus = "Fail"
             }
 
-            Log.i("MainActivity", "MARKER PLACE EXTRAS MARKER")
 
             downloadIntent.also {
 
@@ -320,20 +295,13 @@ class MainActivity : AppCompatActivity() {
 
                 it.putExtras(bundle)
 
-
-//                startActivity(it)
             }
             //******************************************************************************
-
-
-
 
             //Reset loadingStatus & fileDownloadStatus progress indicators
             loadingState.value = LoadingStatus.LOADING
             resultStatus = ResultStatus.NEUTRAL
 
-            //Stop the coroutine from processing
-            //I don't think any need to do this as it is being cancelled in onDestroy()??
 
         }
 
@@ -371,10 +339,6 @@ class MainActivity : AppCompatActivity() {
 //        binding.animatedDownloadButton.isGone = true
         binding.selectFileButton.isGone = true
 
-        //pass in channel creation
-        createChannel(getString(R.string.download_channel_id), getString(R.string.download_channel_name))
-
-
         //setOnDownloadClickListener runs the lambda passed into it
         binding.downloadButton.setOnDownloadClickListener {
             //put what happens when downloadButton is clicked
@@ -399,15 +363,8 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     else -> {
-                        //Make select_downloaod_button visible, animate it, and
-                        // make "Select file to download" custom view visible so it
-                        //is overlaid on top of select_download_button
-                        //This should only last for a say 5 seconds before animation stops
-                        // and customer view becomes invisible
-
 
                         processAnimation_NoFileSelected()
-
 
                     }
                 }
@@ -417,39 +374,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-        //setOnDownloadClickListener runs the lambda passed into it
-//        binding.downloadButton.setOnDownloadClickListener {
-            //put what happens when downloadButton is clicked
-
-
-//            when (loadingFile) {
-//                Loading.GLIDE -> {
-//
-//                    processAnimation_Glide()
-//                }
-//                Loading.UDACITY -> {
-//
-//                    process_Animation_Udacity()
-//                }
-//                Loading.RETROFIT -> {
-//
-//                    process_Antimation_Retrofit()
-//
-//                }
-//                else -> {
-//                    //Make select_downloaod_button visible, animate it, and
-//                    // make "Select file to download" custom view visible so it
-//                    //is overlaid on top of select_download_button
-//                    //This should only last for a say 5 seconds before animation stops
-//                    // and customer view becomes invisible
-//
-//
-//                    processAnimation_NoFileSelected()
-//
-//
-//                }
-//            }
-//        }
     }
 
 

@@ -15,20 +15,8 @@ class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-//    private var binding:ActivityMainBinding = ActivityMainBinding.inflate(LayoutInflater)
 
 
-//    override fun setOnCreateContextMenuListener(l: OnCreateContextMenuListener?) {
-//        super.setOnCreateContextMenuListener(l)
-//
-//        binding = ActivityMainBinding.inflate(LayoutInflater.from(context))
-//    }
-
-
-
-
-//    private var widthSize = 0
-//    private var heightSize = 0
     var buttonPrimaryColor = 0
     var buttonDownloadColor = 0
 
@@ -36,11 +24,6 @@ class LoadingButton @JvmOverloads constructor(
 
     private var width = 0F
     private var height = 0F
-
-//    private var buttonTop = 0F
-//    private var buttonBottom = 0F
-//    private var buttonLeft = 0F
-//    private var buttonRight = 0F
 
     private var textWidth = 0F
     private var textHeight = 0F
@@ -132,25 +115,6 @@ class LoadingButton @JvmOverloads constructor(
                 listener.invoke()
             })
     }
-
-
-//    override fun performClick(): Boolean {
-//        if (super.performClick()) return true
-//
-//        ValueAnimator.ofFloat(rect.left, rect.right).apply {
-//
-//            addUpdateListener {
-//                duration = 1000
-//
-//                start()
-//            }
-//
-//        }
-//
-//
-//    }
-
-
 
 
 

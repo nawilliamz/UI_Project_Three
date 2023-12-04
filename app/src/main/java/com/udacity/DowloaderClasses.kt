@@ -12,6 +12,13 @@ import androidx.core.content.res.TypedArrayUtils.getString
 import kotlinx.coroutines.withContext
 
 
+
+
+
+
+//******************************************THIS CLASS IS NOT IN USE********************************************
+
+
 object GlideDownloader : Downloader {
 
         const val URL = "https://github.com/bumptech/glide"

@@ -10,9 +10,6 @@ import com.udacity.Util.SingleLiveEvent
 
 
 
-//private var _loadingState = MutableLiveData<LoadingStatus>()
-//val loadingState:LiveData<LoadingStatus>
-//    get() = _loadingState
 
 
 class MainViewModel() : ViewModel() {

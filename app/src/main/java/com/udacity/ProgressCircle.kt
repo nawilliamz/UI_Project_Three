@@ -114,19 +114,11 @@ class ProgressCircle @JvmOverloads constructor (
 
         circlePaint.color = accentColor
 
-//        var sweepAngle = 270f
-
         centerProgressCircle(canvas)
-
-//        canvas?.drawText(resources.getString(R.string.button_loading), 0f, 33f, textPaint)
-
-//        canvas?.drawArc(rect, 0f, sweepAngle, true, circlePaint)
 
     }
 
-//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//    }
+
 
 
 
@@ -137,9 +129,6 @@ class ProgressCircle @JvmOverloads constructor (
 
         positionAnimator = ValueAnimator.ofFloat(initialPosition, finalPosition)
 
-        //Remember, the duration must still be 5000 ms in case where no file is selected. use if statement with
-        //condition using Loading enum class. If Loading.NONE, then set duration equal to 5000 ms.
-//        val duration = ValueAnimator.DURATION_INFINITE
 
         val infiniteCircleValue = ValueAnimator.INFINITE
 
