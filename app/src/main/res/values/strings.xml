@@ -29,4 +29,6 @@
     <string name="download_channel_name">Download</string>
 
     <string name="detail_activity_screen_text">CLICK HERE FOR DOWNLOAD STATUS</string>
+
+    <string name="download_button_clicked">Screen needs refreshed. Please exit and re-try download</string>
 </resources>

@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -37,8 +38,6 @@ lateinit var loadingStatus:LoadingStatus
 lateinit var resultStatus:ResultStatus
 
 lateinit var loadingState:LoadingState<LoadingStatus>
-
-
 lateinit var downloadIntent:Intent
 
 class MainActivity : AppCompatActivity() {
@@ -56,11 +55,14 @@ class MainActivity : AppCompatActivity() {
     private val mainContext: Context = this
     private lateinit var valueAnimator: ValueAnimator
 
+    private var buttonPressCounter:Boolean
+
 
     init {
         loadingStatus = LoadingStatus.LOADING
         resultStatus = ResultStatus.NEUTRAL
 
+        buttonPressCounter = false
 
         loadingState = States.StateObj
         States.StateObj.value = LoadingStatus.LOADING
@@ -372,39 +374,82 @@ class MainActivity : AppCompatActivity() {
         //pass in channel creation
         createChannel(getString(R.string.download_channel_id), getString(R.string.download_channel_name))
 
+
         //setOnDownloadClickListener runs the lambda passed into it
         binding.downloadButton.setOnDownloadClickListener {
             //put what happens when downloadButton is clicked
 
+            if (buttonPressCounter == false) {
 
-            when (loadingFile) {
-                Loading.GLIDE -> {
+                when (loadingFile) {
+                    Loading.GLIDE -> {
 
-                    processAnimation_Glide()
+                        processAnimation_Glide()
+                        buttonPressCounter = true
+                    }
+                    Loading.UDACITY -> {
+
+                        process_Animation_Udacity()
+                        buttonPressCounter = true
+                    }
+                    Loading.RETROFIT -> {
+
+                        process_Antimation_Retrofit()
+                        buttonPressCounter = true
+
+                    }
+                    else -> {
+                        //Make select_downloaod_button visible, animate it, and
+                        // make "Select file to download" custom view visible so it
+                        //is overlaid on top of select_download_button
+                        //This should only last for a say 5 seconds before animation stops
+                        // and customer view becomes invisible
+
+
+                        processAnimation_NoFileSelected()
+
+
+                    }
                 }
-                Loading.UDACITY -> {
+            } else {
+                Toast.makeText(this, "Screen needs refreshed. Exit app and re-try", Toast.LENGTH_SHORT).show()
 
-                    process_Animation_Udacity()
-                }
-                Loading.RETROFIT -> {
-
-                    process_Antimation_Retrofit()
-
-                }
-                else -> {
-                    //Make select_downloaod_button visible, animate it, and
-                    // make "Select file to download" custom view visible so it
-                    //is overlaid on top of select_download_button
-                    //This should only last for a say 5 seconds before animation stops
-                    // and customer view becomes invisible
-
-
-                    processAnimation_NoFileSelected()
-
-
-                }
-            }
         }
+    }
+
+        //setOnDownloadClickListener runs the lambda passed into it
+//        binding.downloadButton.setOnDownloadClickListener {
+            //put what happens when downloadButton is clicked
+
+
+//            when (loadingFile) {
+//                Loading.GLIDE -> {
+//
+//                    processAnimation_Glide()
+//                }
+//                Loading.UDACITY -> {
+//
+//                    process_Animation_Udacity()
+//                }
+//                Loading.RETROFIT -> {
+//
+//                    process_Antimation_Retrofit()
+//
+//                }
+//                else -> {
+//                    //Make select_downloaod_button visible, animate it, and
+//                    // make "Select file to download" custom view visible so it
+//                    //is overlaid on top of select_download_button
+//                    //This should only last for a say 5 seconds before animation stops
+//                    // and customer view becomes invisible
+//
+//
+//                    processAnimation_NoFileSelected()
+//
+//
+//                }
+//            }
+//        }
     }
 
 
