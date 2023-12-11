@@ -18,12 +18,12 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var scene:MotionScene
-    private var downloadAnimationHasRun:Boolean
+//    private var downloadAnimationHasRun:Boolean
 
 
-    init {
-        downloadAnimationHasRun = false
-    }
+//    init {
+//        downloadAnimationHasRun = false
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,24 +39,24 @@ class DetailActivity : AppCompatActivity() {
         binding.statusText.setText(status)
         //*************************************************************************************
 
-        if (!downloadAnimationHasRun) {
-            binding.detailOverlayText.visibility = View.VISIBLE
-            downloadAnimationHasRun = true
-        } else {
-            binding.detailOverlayText.visibility = View.INVISIBLE
-        }
+//        if (!downloadAnimationHasRun) {
+//            binding.detailOverlayText.visibility = View.VISIBLE
+//            downloadAnimationHasRun = true
+//        } else {
+//            binding.detailOverlayText.visibility = View.INVISIBLE
+//        }
 
-        binding.detailOverlayText.setOnClickListener {
-
-
-            if (downloadAnimationHasRun) {
-
-                it.visibility = View.GONE
-
-                //run the animation
-                binding.motionLayout.transitionToEnd()
-            }
-        }
+//        binding.detailOverlayText.setOnClickListener {
+//
+//
+//            if (downloadAnimationHasRun) {
+//
+//                it.visibility = View.GONE
+//
+//                //run the animation
+//                binding.motionLayout.transitionToEnd()
+//            }
+//        }
 
         binding.button.setOnClickListener {
 
@@ -65,6 +65,8 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+//        binding.motionLayout.transitionToEnd()
+
 
     }
 
@@ -72,6 +74,8 @@ class DetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        binding.motionLayout.setTransition(R.id.start, R.id.end)
+        binding.motionLayout.transitionToEnd()
     }
 
     override fun onDestroy() {
