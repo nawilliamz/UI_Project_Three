@@ -31,4 +31,11 @@
     <string name="detail_activity_screen_text">CLICK HERE FOR DOWNLOAD STATUS</string>
 
     <string name="download_button_clicked">Screen needs refreshed. Please exit and re-try download</string>
+
+    <string name="storage_approval_dialog_title">Approve write to storage</string>
+    <string name="storage_approval_dialog_message">To approve this download into your phone\'s file system, click APPROVE</string>
+    <string name="approval_text">Approve</string>
+    <string name="cancel_text">Cancel</string>
+
+
 </resources>

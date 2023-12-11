@@ -7,18 +7,24 @@ import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.ProgressDialog.show
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MainThread
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -30,7 +36,7 @@ import com.udacity.Util.*
 import com.udacity.databinding.ActivityDetailBinding
 import com.udacity.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
-
+import java.security.Permission
 
 
 //lateinit var loadingStatus:Events
@@ -55,18 +61,42 @@ class MainActivity : AppCompatActivity() {
     private val mainContext: Context = this
     private lateinit var valueAnimator: ValueAnimator
 
-    private var buttonPressCounter:Boolean
+    private var buttonPressCounter:Int
+
+    private lateinit var startDownloadX : () -> Unit
+
+    private val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private val name = "FILE DOWNLOAD"
+
+
+
+    //*********************WRITE-TO PERMISSION CODE (also see requestWriteToPermission() below)********************
+
+
+//    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+//
+//            isGranted: Boolean ->
+//        if (isGranted) {
+//            startDownloadX()
+//        } else {
+//            Toast.makeText(this, "Download is unavailable without approval.", Toast.LENGTH_SHORT)
+//        }
+//    }
+    //********************************************************************************************************
+
 
 
     init {
         loadingStatus = LoadingStatus.LOADING
         resultStatus = ResultStatus.NEUTRAL
 
-        buttonPressCounter = false
+        buttonPressCounter = 0
 
         loadingState = States.StateObj
         States.StateObj.value = LoadingStatus.LOADING
 
+
+        startDownloadX = {}
 
 //        fileName = ""
 //        fileDownloadStatus = ""
@@ -77,6 +107,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
+    companion object {
+        private const val WRITE_TO_EXTERNAL_CODE = 100
+
+
+    }
 
     //***********************Couroutines_NoFileSelected***********************************
     private var animationProcessingJob_NoFileSelected = Job()
@@ -120,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         animationProcessingScope_GlideSelected.launch {
 
 
-
+            Log.i("MainActivity", "Marker: processAnimation_Glide")
 
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
@@ -140,10 +177,7 @@ class MainActivity : AppCompatActivity() {
 
                 FileDownloader(mainContext).downloadFile(Constants.GLIDE_URL, mainContext)
 
-
-
             }
-
 
 
             loadingState.observe(this@MainActivity, Observer {
@@ -153,6 +187,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
+
+            binding.downloadButton.invalidate()
 
         }
 
@@ -170,6 +206,8 @@ class MainActivity : AppCompatActivity() {
 
         animationProcessingScope_UdacitySelected.launch {
 
+            Log.i("MainActivity", "Marker: processAnimation_Udacity")
+
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
             binding.downloadButton.invalidate()
@@ -186,7 +224,6 @@ class MainActivity : AppCompatActivity() {
 
                 FileDownloader(mainContext).downloadFile(Constants.UDACITY_URL, mainContext)
 
-
             }
 
             loadingState.observe(this@MainActivity, Observer {
@@ -196,6 +233,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
+
+            binding.downloadButton.invalidate()
 
         }
 
@@ -213,6 +252,8 @@ class MainActivity : AppCompatActivity() {
         private fun process_Antimation_Retrofit() {
 
             animationProcessingScope_RetrofitSelected.launch {
+
+                Log.i("MainActivity", "Marker: processAnimation_Retrofit")
 
                 //Set the color of DOWNLOAD text to same as background color
                 binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
@@ -242,6 +283,7 @@ class MainActivity : AppCompatActivity() {
 
                 })
 
+                binding.downloadButton.invalidate()
             }
 
         }
@@ -264,6 +306,7 @@ class MainActivity : AppCompatActivity() {
             //Re-set the color of DOWNLOAD text to white
             binding.downloadButton.textPaint.color = Color.WHITE
             binding.downloadButton.invalidate()
+
 
 
             when (loadingFile) {
@@ -335,6 +378,8 @@ class MainActivity : AppCompatActivity() {
 
         setOnCheckedListenerToRadioGroup(binding.radioGroup)
 
+        //pass in channel creation
+        createChannel(getString(R.string.download_channel_id), getString(R.string.download_channel_name))
 
 //        binding.animatedDownloadButton.isGone = true
         binding.selectFileButton.isGone = true
@@ -343,23 +388,32 @@ class MainActivity : AppCompatActivity() {
         binding.downloadButton.setOnDownloadClickListener {
             //put what happens when downloadButton is clicked
 
-            if (buttonPressCounter == false) {
+            if (buttonPressCounter <= 2) {
 
                 when (loadingFile) {
                     Loading.GLIDE -> {
 
-                        processAnimation_Glide()
-                        buttonPressCounter = true
+                        //Start startPreferanceFragment here. When user clicks on "Approve" button on the
+                        //Dialog, the processAnimation_Glide method is initiated??? NO. Here you will
+
+                        requestWriteToPermission { processAnimation_Glide() }
+
+//                        processAnimation_Glide()
+                    buttonPressCounter++
                     }
                     Loading.UDACITY -> {
 
-                        process_Animation_Udacity()
-                        buttonPressCounter = true
+                        requestWriteToPermission { process_Animation_Udacity() }
+
+//                        process_Animation_Udacity()
+                    buttonPressCounter++
                     }
                     Loading.RETROFIT -> {
 
-                        process_Antimation_Retrofit()
-                        buttonPressCounter = true
+                        requestWriteToPermission { process_Antimation_Retrofit() }
+
+//                        process_Antimation_Retrofit()
+                    buttonPressCounter++
 
                     }
                     else -> {
@@ -367,13 +421,13 @@ class MainActivity : AppCompatActivity() {
                         processAnimation_NoFileSelected()
 
                     }
+
                 }
+
             } else {
                 Toast.makeText(this, "Screen needs refreshed. Exit app and re-try", Toast.LENGTH_SHORT).show()
-
-        }
-    }
-
+            }
+       }
     }
 
 
@@ -422,7 +476,80 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun requestWriteToPermission (startDownloadX: () -> Unit ) {
+
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+
+            when {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+
+                    startDownloadX()
+                }
+
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) -> {
+
+                    Log.i("MainActivity", "Marker: MainActivity1")
+                    //Display educational Dialog letting user know what permissions request is for. The dialog will also
+                    //contain a positive button where permissions are requested. This launches another system-generated
+                    //dialog asking for write-to permission from the user
+                    showDialog(permission, name, WRITE_TO_EXTERNAL_CODE)
+
+                    Log.i("MainActivity", "Marker: MainActivity2")
+
+                }
+
+                else -> {
+
+                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), WRITE_TO_EXTERNAL_CODE)
+                }
+
+            }
+
+        } else {
+            startDownloadX()
+        }
+
+    }
+
+    private fun showDialog(permission: String, name: String, requestCode: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setMessage("Permission to access your $name is required to use this app")
+            setTitle("Permission Required")
+            setPositiveButton("OK"){dialog,which ->
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission),requestCode)
+            }
+        }
+        val dialog =builder.create()
+        dialog.show()
+    }
 
 
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (WRITE_TO_EXTERNAL_CODE) {
+            100 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startDownloadX()
+                } else {
+                    Toast.makeText(this, "Download not available. Requires permission to write file to your phone" +
+                            "which you have denied.", Toast.LENGTH_LONG).show()
+                }
+                return
+            }
+        }
+    }
 }

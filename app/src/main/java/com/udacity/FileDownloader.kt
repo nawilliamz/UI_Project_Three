@@ -59,7 +59,7 @@ class FileDownloader (dlContext: Context):Downloader {
             .setRequiresCharging(false)
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "glide_master.zip")
 
         Log.i("FileDownloader", "Glide download method has completed")
@@ -79,7 +79,7 @@ class FileDownloader (dlContext: Context):Downloader {
             .setRequiresCharging(false)
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "nd940-c3-advanced-android-programming-project-starter-master.zip")
 
         Log.i("FileDownloader", "Udacity download method has completed")
@@ -98,7 +98,7 @@ class FileDownloader (dlContext: Context):Downloader {
             .setRequiresCharging(false)
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "retrofit-master.zip")
 
         Log.i("FileDownloader", "Retrofit download method has completed")
