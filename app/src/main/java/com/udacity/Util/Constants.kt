@@ -1,6 +1,6 @@
 package com.udacity.Util
 
-import com.udacity.UdacityDownloader
+//import com.udacity.UdacityDownloader
 
 object Constants {
     const val GLIDE_URL = "https://github.com/bumptech/glide/archive/master.zip"
