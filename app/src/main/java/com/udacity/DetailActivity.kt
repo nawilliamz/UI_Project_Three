@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionScene
+import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.constraintlayout.motion.widget.TransitionBuilder
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -18,6 +20,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var scene:MotionScene
+
 //    private var downloadAnimationHasRun:Boolean
 
 
@@ -39,25 +42,6 @@ class DetailActivity : AppCompatActivity() {
         binding.statusText.setText(status)
         //*************************************************************************************
 
-//        if (!downloadAnimationHasRun) {
-//            binding.detailOverlayText.visibility = View.VISIBLE
-//            downloadAnimationHasRun = true
-//        } else {
-//            binding.detailOverlayText.visibility = View.INVISIBLE
-//        }
-
-//        binding.detailOverlayText.setOnClickListener {
-//
-//
-//            if (downloadAnimationHasRun) {
-//
-//                it.visibility = View.GONE
-//
-//                //run the animation
-//                binding.motionLayout.transitionToEnd()
-//            }
-//        }
-
         binding.button.setOnClickListener {
 
 
@@ -74,13 +58,16 @@ class DetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        binding.motionLayout.setTransition(R.id.start, R.id.end)
-        binding.motionLayout.transitionToEnd()
+//        val transition = binding.motionLayout.getTransition(R.id.resultTransitionX)
+        binding.motionLayout.transitionToState(R.id.end, 10000)
+
+
+
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
 
     }
 }

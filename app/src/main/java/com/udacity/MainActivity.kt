@@ -433,8 +433,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnCheckedListenerToRadioGroup (group: RadioGroup) {
 
-
-
         val glide = binding.glideButton.id
         val udacity = binding.udacityButton.id
         val retrofit = binding.retrofitButton.id
