@@ -65,8 +65,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var startDownloadX : () -> Unit
 
-    private val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private val writeToPermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
+
     private val name = "FILE DOWNLOAD"
+    private val permissionName = "NOTIFICATIONS"
 
 
 
@@ -111,6 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val WRITE_TO_EXTERNAL_CODE = 100
+        private const val POST_NOTIFICATIONS = 200
 
 
     }
@@ -428,6 +432,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Screen needs refreshed. Exit app and re-try", Toast.LENGTH_SHORT).show()
             }
        }
+
+        Log.i("MainActivity", "Marker: OnCreate_MainActivity_Run_Successfully")
     }
 
 
@@ -485,7 +491,9 @@ class MainActivity : AppCompatActivity() {
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
 
-                    startDownloadX()
+                    Log.i("MainActivity", "CHECKED FOR WRITE TO PERMISSION")
+//                    startDownloadX()
+                    requestNotificationPermissions(startDownloadX)
                 }
 
                 ActivityCompat.shouldShowRequestPermissionRationale(
@@ -497,7 +505,7 @@ class MainActivity : AppCompatActivity() {
                     //Display educational Dialog letting user know what permissions request is for. The dialog will also
                     //contain a positive button where permissions are requested. This launches another system-generated
                     //dialog asking for write-to permission from the user
-                    showDialog(permission, name, WRITE_TO_EXTERNAL_CODE)
+                    showDialog(writeToPermission, name, WRITE_TO_EXTERNAL_CODE)
 
                     Log.i("MainActivity", "Marker: MainActivity2")
 
@@ -505,13 +513,14 @@ class MainActivity : AppCompatActivity() {
 
                 else -> {
 
-                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), WRITE_TO_EXTERNAL_CODE)
+                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(writeToPermission), WRITE_TO_EXTERNAL_CODE)
                 }
 
             }
 
         } else {
-            startDownloadX()
+//            startDownloadX()
+            requestNotificationPermissions(startDownloadX)
         }
 
     }
@@ -531,6 +540,62 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private fun requestNotificationPermissions (startDownloadX: () -> Unit) {
+
+        Log.i("MainActivity", "Marker: REQUEST_NOTIFICATION_PERMISSIONS STARTED")
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
+
+            when {
+
+
+                ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED  -> {
+
+                    Log.i("MainActivity", "NOTIFICATION PERMISSION CHECKED FOR")
+                    startDownloadX()
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) -> {
+
+                    Log.i("MainActivity", "Marker: SHOULD_SHOW_REQUEST_PERMISSION")
+                    showNotificationPermissionDialog(notificationPermission, permissionName, POST_NOTIFICATIONS)
+
+                } else -> {
+
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(notificationPermission), POST_NOTIFICATIONS)
+                }
+            }
+        } else {
+
+            Log.i("MainActivity" ,"Marker: START_DOWNLOAD_NOTIF_BEGUN")
+            startDownloadX()
+        }
+
+    }
+
+
+
+
+
+
+    private fun showNotificationPermissionDialog(permission: String, name: String, requestCode: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setMessage("Permission is required to send you ${permissionName} ")
+            setTitle("Permission Required")
+            setPositiveButton("OK"){dialog,which ->
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission),requestCode)
+            }
+        }
+        val dialog =builder.create()
+        dialog.show()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -538,16 +603,29 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when (WRITE_TO_EXTERNAL_CODE) {
-            100 -> {
+        when (requestCode) {
+            WRITE_TO_EXTERNAL_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startDownloadX()
+                    //startDownloadX()
+                    requestNotificationPermissions(startDownloadX)
                 } else {
                     Toast.makeText(this, "Download not available. Requires permission to write file to your phone" +
                             "which you have denied.", Toast.LENGTH_LONG).show()
                 }
                 return
             }
+            POST_NOTIFICATIONS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    startDownloadX
+
+                } else {
+                    Toast.makeText(this, "Notification not activated. Requires permission to post notification which you" +
+                            "have denied.", Toast.LENGTH_LONG).show()
+                }
+                return
+            }
+
         }
     }
 }
