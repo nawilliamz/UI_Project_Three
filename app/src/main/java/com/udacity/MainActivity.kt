@@ -491,8 +491,6 @@ class MainActivity : AppCompatActivity() {
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
 
-                    Log.i("MainActivity", "CHECKED FOR WRITE TO PERMISSION")
-//                    startDownloadX()
                     requestNotificationPermissions(startDownloadX)
                 }
 
@@ -501,13 +499,11 @@ class MainActivity : AppCompatActivity() {
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) -> {
 
-                    Log.i("MainActivity", "Marker: MainActivity1")
                     //Display educational Dialog letting user know what permissions request is for. The dialog will also
                     //contain a positive button where permissions are requested. This launches another system-generated
                     //dialog asking for write-to permission from the user
                     showDialog(writeToPermission, name, WRITE_TO_EXTERNAL_CODE)
 
-                    Log.i("MainActivity", "Marker: MainActivity2")
 
                 }
 
@@ -542,8 +538,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestNotificationPermissions (startDownloadX: () -> Unit) {
 
-        Log.i("MainActivity", "Marker: REQUEST_NOTIFICATION_PERMISSIONS STARTED")
-
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
 
             when {
@@ -554,7 +548,6 @@ class MainActivity : AppCompatActivity() {
                     android.Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED  -> {
 
-                    Log.i("MainActivity", "NOTIFICATION PERMISSION CHECKED FOR")
                     startDownloadX()
                 }
                 ActivityCompat.shouldShowRequestPermissionRationale(
@@ -562,7 +555,6 @@ class MainActivity : AppCompatActivity() {
                     android.Manifest.permission.POST_NOTIFICATIONS
                 ) -> {
 
-                    Log.i("MainActivity", "Marker: SHOULD_SHOW_REQUEST_PERMISSION")
                     showNotificationPermissionDialog(notificationPermission, permissionName, POST_NOTIFICATIONS)
 
                 } else -> {
@@ -572,14 +564,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
 
-            Log.i("MainActivity" ,"Marker: START_DOWNLOAD_NOTIF_BEGUN")
             startDownloadX()
         }
 
     }
-
-
-
 
 
 
